@@ -65,17 +65,19 @@ const generateReadMe = (answers) => {
 
         
     ##  **Table of Contents** 
-        #### Creator 
-        #### Licensing
-        #### Dependencies
-        #### Tests
-        #### Extra Info
-        #### Interested in Contributing
+        1. [Creator] (#creator) 
+        2. [Licenses] (#licenses)
+        3. [Dependencies] (#dependencies)
+        4. [Tests] (#tests)
+        5. [Extras] (#extras)
+        6. Contribute (#contribute)
          
         
     
     
-    ## Created By: ${answers.userName}
+    ## Creator ${answers.userName}
+        ![GitHub_Picture](${gitHubImage})
+        
 
     ## Licenses
 
@@ -89,11 +91,11 @@ const generateReadMe = (answers) => {
 
         ##### ${answers.test}
 
-    ## Extra Info
+    ## Extras
 
         ##### ${answers.needToKnow}
 
-    ## Interested in Contributing
+    ## Contribute
 
         #### ${answers.contribute}
 
@@ -105,19 +107,25 @@ const generateReadMe = (answers) => {
 async function init() {
     console.log("hi");
     try {
+        
+        
         const answers = await questions();
-
-        axios
+        
+        const response = await axios
             .get(`https://api.github.com/users/${answers.userName}`)
             .then((res) => {
-                console.log(res.data);
-
+                console.log(res.data.avatar_url);
+        
                 const gitHubImage = res.data.avatar_url;
+
             })
             .catch((err) => {
                 console.log(err);
             })
 
+
+        console.log(response);
+            
         const readMe = generateReadMe(answers);
         
         await writeFileAsync("README.md", readMe);
